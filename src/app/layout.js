@@ -4,7 +4,13 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { Geist, Geist_Mono } from "next/font/google";
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,7 +35,10 @@ export default function RootLayout({ children }) {
         <ToastContainer />
         <SpeedInsights />
         <Analytics />
-        {children}
+
+        <Header />
+          {children}
+        <Footer />
       </body>
     </html>
   );
