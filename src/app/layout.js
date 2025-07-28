@@ -10,8 +10,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import Header from '@/ui/components/Header';
 import Footer from '@/ui/components/Footer';
-
-import { GoogleAnalytics } from 'nextjs-google-analytics';
+import GoogleAnalytics from '@/ui/components/GoogleAnalytics';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,17 +28,15 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const GA_MEASUREMENT_ID = process.env.GA_MEASUREMENT_ID;
-
   return (
     <html lang="en">
+      <head>
+        <GoogleAnalytics />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ToastContainer />
         <SpeedInsights />
         <Analytics />
-
-        <GoogleAnalytics trackPageViews gaMeasurementId={GA_MEASUREMENT_ID} />
-
         <Header />
           {children}
         <Footer />
