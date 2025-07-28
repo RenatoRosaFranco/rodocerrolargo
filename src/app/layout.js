@@ -1,3 +1,5 @@
+import './global.scss';
+
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -8,11 +10,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Geist, Geist_Mono } from "next/font/google";
 
-import Header from '@/ui/components/Header';
-import Footer from '@/ui/components/Footer';
+import Header from '@/ui/shared/Header';
+import Footer from '@/ui/shared/Footer';
 
 import IubendaConsent from '@/ui/components/IubendaConsent';
 import GoogleAnalytics from '@/ui/components/GoogleAnalytics';
+
+import WhatsappButton from '@/ui/components/WhatsappButton';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +45,8 @@ export default function RootLayout({ children }) {
         <Header />
           {children}
         <Footer />
+
+        <WhatsappButton />
       </body>
     </html>
   );
