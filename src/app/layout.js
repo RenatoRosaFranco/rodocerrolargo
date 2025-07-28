@@ -30,9 +30,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <GoogleAnalytics />
-      </head>
+      <GoogleAnalytics />
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ToastContainer />
         <SpeedInsights />
