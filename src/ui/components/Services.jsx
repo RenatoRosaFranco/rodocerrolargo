@@ -33,7 +33,7 @@ const Services = () => {
       <Col md={3} className="mb-4">
         <Card className="text-center h-100">
           <Card.Body>
-            <h1 className="fw-bold">{icon}</h1>
+            <h2 className="fw-bold">{icon}</h2>
             <h4 className="fw-bold">{name}</h4>
           </Card.Body>
         </Card>
@@ -42,10 +42,11 @@ const Services = () => {
   }
   
   return (
-    <Container id="services-section">
+    <Container id="services-section" className='py-5'>
       <Row>
         <Col>
-          <h1 className="fw-bold text-center mb-4">Princiais Serviços</h1>
+          <h1 className="fw-bold text-center mb-0">Princiais Serviços</h1>
+          <p className='text-center mt-0 mb-5'>Conheça os principais serviços que a estação oferece.</p>
         </Col>
       </Row>
       <Row>

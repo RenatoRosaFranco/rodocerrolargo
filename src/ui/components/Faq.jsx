@@ -33,7 +33,7 @@ const Faq = () => {
     <Container className="my-5">
       <Row>
         <Col>
-          <h1 className="fw-bold mb-4">Dúvidas Frequentes</h1>
+          <h2 className="fw-bold mb-3">Dúvidas Frequentes</h2>
           <Accordion defaultActiveKey="">
             {faq.map((item, index) => (
               <Accordion.Item eventKey={index.toString()} key={index}>
