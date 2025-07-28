@@ -30,14 +30,18 @@ const Faq = () => {
   ];
 
   return (
-    <Container className="my-5">
+    <Container className="my-1 mb-5">
       <Row>
         <Col>
-          <h2 className="fw-bold mb-3">Dúvidas Frequentes</h2>
+          <h2 className="fw-bold mb-1">Dúvidas Frequentes</h2>
+          <p className='mb-5'>
+            Aqui você encontra as respostas para as dúvidas mais frequentes.
+          </p>
+          
           <Accordion defaultActiveKey="">
             {faq.map((item, index) => (
               <Accordion.Item eventKey={index.toString()} key={index}>
-                <Accordion.Header>{item.question}</Accordion.Header>
+                <Accordion.Header className='fw-bold'>{item.question}</Accordion.Header>
                 <Accordion.Body>{item.answer}</Accordion.Body>
               </Accordion.Item>
             ))}

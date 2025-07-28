@@ -35,7 +35,7 @@ const HowTo = () => {
       <Container>
         <Row>
           {steps.map((step) => (
-            <Col key={step.id} className="col-md-3">
+            <Col key={step.id} className="col-md-3 col-sm-12">
               <div className="d-flex align-items-center gap-3">
                 <div className="step-icon flex-shrink-0 fw-bold"
                 style={{ fontSize: '40px' }}>{step.icon}</div>
