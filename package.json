@@ -9,8 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.83.0",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
+    "bootstrap": "^5.3.7",
+    "bullmq": "^5.56.8",
+    "formik": "^2.4.6",
+    "ioredis": "^5.6.1",
+    "lodash": "^4.17.21",
+    "mocha": "^11.7.1",
+    "next": "15.4.4",
+    "prop-types": "^15.8.1",
     "react": "19.1.0",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "19.1.0",
-    "next": "15.4.4"
+    "react-icons": "^5.5.0",
+    "react-spring": "^10.0.1",
+    "react-toastify": "^11.0.5",
+    "styled-components": "^6.1.19",
+    "yup": "^1.6.1"
   }
 }
