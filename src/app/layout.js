@@ -31,6 +31,7 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Estação Rodoviária de Cerro Largo",
   description: "O Terminal Rodoviário de Cerro Largo no Rio Grande do Sul oferece a seus passageiros trechos estaduais e interestaduais.",
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({ children }) {
