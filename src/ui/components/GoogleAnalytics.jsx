@@ -1,19 +1,21 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect } from 'react';
 
 const GoogleAnalytics = () => {
-  return(
-    <>
-      {/* Google tag (gtag.js) */}
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-XC0XRGQTRH"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){ dataLayer.push(arguments) }
-        gtag('js', new Date());
-      
-        gtag('config', 'G-XC0XRGQTRH');
-      </script>
-    </>
-  );
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-XC0XRGQTRH';
+    script.async = true;
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XC0XRGQTRH');
+  }, []);
+
+  return null;
 };
 
 export default GoogleAnalytics;
