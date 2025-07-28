@@ -10,6 +10,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import Header from '@/ui/components/Header';
 import Footer from '@/ui/components/Footer';
+
+import IubendaConsent from '@/ui/components/IubendaConsent';
 import GoogleAnalytics from '@/ui/components/GoogleAnalytics';
 
 const geistSans = Geist({
@@ -30,6 +32,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <IubendaConsent />
       <GoogleAnalytics />
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ToastContainer />
