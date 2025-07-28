@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.83.0",
@@ -19,6 +20,7 @@
     "lodash": "^4.17.21",
     "mocha": "^11.7.1",
     "next": "15.4.4",
+    "next-sitemap": "^4.2.3",
     "prop-types": "^15.8.1",
     "react": "19.1.0",
     "react-bootstrap": "^2.10.10",
