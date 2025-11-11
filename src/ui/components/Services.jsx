@@ -1,7 +1,6 @@
-import React from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import { MdShareLocation } from "react-icons/md";
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import { LuTicket } from "react-icons/lu";
+import { MdShareLocation } from "react-icons/md";
 import { PiTaxiFill } from "react-icons/pi";
 
 import { MdLock } from "react-icons/md";
@@ -40,7 +39,7 @@ const Services = () => {
       </Col>
     )
   }
-  
+
   return (
     <Container id="services-section" className='py-5'>
       <Row>

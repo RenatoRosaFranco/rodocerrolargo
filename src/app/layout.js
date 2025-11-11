@@ -10,10 +10,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Geist, Geist_Mono } from "next/font/google";
 
-import Header from '@/ui/shared/Header';
 import Footer from '@/ui/shared/Footer';
 
-import IubendaConsent from '@/ui/components/IubendaConsent';
 import GoogleAnalytics from '@/ui/components/GoogleAnalytics';
 
 import WhatsappButton from '@/ui/components/WhatsappButton';
@@ -37,16 +35,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <IubendaConsent />
       <GoogleAnalytics />
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ToastContainer />
         <SpeedInsights />
         <Analytics />
-        <Header />
-          {children}
+        {children}
         <Footer />
-
         <WhatsappButton />
       </body>
     </html>

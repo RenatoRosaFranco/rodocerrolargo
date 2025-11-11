@@ -1,0 +1,148 @@
+{
+  "schedules": {
+    "monday": [
+      {
+        "origin": "Cerro Largo",
+        "destination": "Santa Rosa",
+        "departures": ["08:15", "17:00"],
+        "estimatedTimeArrival": "10:00"
+      },
+      {
+        "origin": "Santa Rosa",
+        "destination": "Cerro Largo",
+        "departures": ["09:10", "15:10"],
+        "estimatedTimeArrival": "11:00"
+      },
+      {
+        "origin": "Cerro Largo",
+        "destination": "São Luiz Gonzaga",
+        "departures": ["11:00", "17:10"],
+        "estimatedTimeArrival": "13:00"
+      },
+      {
+        "origin": "São Luiz Gonzaga",
+        "destination": "Cerro Largo",
+        "departures": ["07:00", "15:30"],
+        "estimatedTimeArrival": "10:00"
+      },
+      {
+        "origin": "Cerro Largo",
+        "destination": "Porto Alegre",
+        "departures": ["21:30"],
+        "estimatedTimeArrival": "00:00"
+      },
+      {
+        "origin": "Cerro Largo",
+        "destination": "Dezesseis de Novembro",
+        "departures": ["06:30"],
+        "estimatedTimeArrival": "21:00"
+      },
+      {
+        "origin": "Cerro Largo",
+        "destination": "São Nicolau",
+        "departures": ["06:30"],
+        "estimatedTimeArrival": "10:00"
+      }
+    ],
+    "tuesday": [
+      {
+        "origin": "Cerro Largo",
+        "destination": "Santa Rosa",
+        "departures": ["08:15", "17:00"],
+        "estimatedTimeArrival": "10:00"
+      },
+      {
+        "origin": "Santa Rosa",
+        "destination": "Cerro Largo",
+        "departures": ["09:10", "15:10"],
+        "estimatedTimeArrival": "11:00"
+      },
+      {
+        "origin": "Cerro Largo",
+        "destination": "São Luiz Gonzaga",
+        "departures": ["11:00", "17:00"],
+        "estimatedTimeArrival": "13:00"
+      },
+      {
+        "origin": "São Luiz Gonzaga",
+        "destination": "Cerro Largo",
+        "departures": ["07:00", "15:30"],
+        "estimatedTimeArrival": "10:00"
+      },
+      {
+        "origin": "Cerro Largo",
+        "destination": "Dezesseis de Novembro",
+        "departures": ["06:30"],
+        "estimatedTimeArrival": "21:00"
+      },
+      {
+        "origin": "Cerro Largo",
+        "destination": "São Nicolau",
+        "departures": ["06:30"],
+        "estimatedTimeArrival": "06:30"
+      },
+      {
+        "origin": "Cerro Largo",
+        "destination": "Porto Alegre",
+        "departures": ["21:30"],
+        "estimatedTimeArrival": "00:00"
+      },
+      {
+        "origin": "Cerro Largo",
+        "destination": "Santo Ângelo",
+        "departures": ["21:30"],
+        "estimatedTimeArrival": "06:30"
+      },
+      {
+        "origin": "Santo Ângelo",
+        "destination": "Cerro Largo",
+        "departures": ["05:30"],
+        "estimatedTimeArrival": "06:30"
+      }
+    ],
+    "wednesday": [
+      {
+        "origin": "Cerro Largo",
+        "destination": "Santa Rosa",
+        "departures": ["08:15", "17:00"],
+        "estimatedTimeArrival": "10:00"
+      },
+      {
+        "origin": "Santa Rosa",
+        "destination": "Cerro Largo",
+        "departures": ["09:10", "15:10"],
+        "estimatedTimeArrival": "11:00"
+      },
+      {
+        "origin": "Cerro Largo",
+        "destination": "São Luiz Gonzaga",
+        "departures": ["11:00", "17:00"],
+        "estimatedTimeArrival": "10:00"
+      },
+      {
+        "origin": "São Luiz Gonzaga",
+        "destination": "Cerro Largo",
+        "departures": ["07:00", "15:30"],
+        "estimatedTimeArrival": "10:00"
+      },
+      {
+        "origin": "Cerro Largo",
+        "destination": "Dezesseis de Novembro",
+        "departures": ["06:30"],
+        "estimatedTimeArrival": "21:00"
+      }
+    ],
+    "thursday": [
+      {}
+    ],
+    "friday": [
+      {}
+    ],
+    "saturday": [
+      {}
+    ],
+    "sunday": [
+      {}
+    ]
+  }
+}

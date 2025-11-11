@@ -1,17 +1,16 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 
-import { FaPix } from "react-icons/fa6";
-import { TbDeviceMobileDollar } from "react-icons/tb";
 import { FaRegCheckCircle } from "react-icons/fa";
+import { FaPix } from "react-icons/fa6";
 import { LuScanQrCode } from "react-icons/lu";
+import { TbDeviceMobileDollar } from "react-icons/tb";
 
 const HowTo = () => {
   const steps = [
     {
       id: 1,
       icon: <FaPix />,
-      name: 'Page com Pix'
+      name: 'Pague com Pix'
     },
     {
       id: 2,
@@ -29,7 +28,7 @@ const HowTo = () => {
       name: 'Obtenha seu bilhete de passagem'
     }
   ]
-  
+
   return (
     <section id="how-to-section" className='py-4'>
       <Container>

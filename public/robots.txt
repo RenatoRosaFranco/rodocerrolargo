@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://rodocerrolargo.com.br
+
+# Sitemaps
+Sitemap: https://rodocerrolargo.com.br/sitemap.xml
