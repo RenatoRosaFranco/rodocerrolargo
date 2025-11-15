@@ -1,9 +1,8 @@
 'use client';
 
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Container, Row, Col, Card, Button, Alert } from 'react-bootstrap';
-import { taxistaSchema } from '@/validations/taxistaSchema';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useState } from 'react';
+import { Alert, Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 const TaxistaForm = () => {
@@ -99,7 +98,6 @@ const TaxistaForm = () => {
 
               <Formik
                 initialValues={initialValues}
-                validationSchema={taxistaSchema}
                 onSubmit={handleSubmit}
               >
                 {({ values, setFieldValue, errors, touched }) => (

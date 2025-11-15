@@ -1,9 +1,8 @@
 'use client';
 
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Container, Row, Col, Card, Button, Alert } from 'react-bootstrap';
-import { publicidadeSchema } from '@/validations/publicidadeSchema';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useState } from 'react';
+import { Alert, Button, Card, Col, Container, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 const PublicidadeForm = () => {
@@ -114,7 +113,6 @@ const PublicidadeForm = () => {
 
               <Formik
                 initialValues={initialValues}
-                validationSchema={publicidadeSchema}
                 onSubmit={handleSubmit}
               >
                 {({ values, setFieldValue, errors, touched }) => (
