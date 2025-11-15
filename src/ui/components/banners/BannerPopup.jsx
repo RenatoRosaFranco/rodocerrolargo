@@ -15,7 +15,7 @@ const BannerPopup = () => {
 
   const fetchBanner = async () => {
     try {
-      const response = await fetch('/api/publicidades?tipo=popup&ativos=true');
+      const response = await fetch('/api/ads?type=popup&active=true');
       const data = await response.json();
 
       if (data.success && data.data.length > 0) {
@@ -33,19 +33,19 @@ const BannerPopup = () => {
   };
 
   const shouldShowPopup = (banner) => {
-    const frequencia = banner.configPopup?.frequencia || 'uma-vez-por-sessao';
-    const storageKey = `popup-${banner._id}`;
+    const frequencia = banner.popupFrequency || 'once-per-session';
+    const storageKey = `popup-${banner.id}`;
 
-    if (frequencia === 'sempre') {
+    if (frequencia === 'always') {
       return true;
     }
 
-    if (frequencia === 'uma-vez-por-sessao') {
+    if (frequencia === 'once-per-session') {
       const shown = sessionStorage.getItem(storageKey);
       return !shown;
     }
 
-    if (frequencia === 'uma-vez-por-dia') {
+    if (frequencia === 'once-per-day') {
       const lastShown = localStorage.getItem(storageKey);
       if (!lastShown) return true;
 
@@ -58,7 +58,7 @@ const BannerPopup = () => {
   };
 
   const schedulePopup = (banner) => {
-    const delay = (banner.configPopup?.exibirApos || 5) * 1000;
+    const delay = (banner.popupDisplayAfter || 5) * 1000;
 
     setTimeout(() => {
       setShowModal(true);
@@ -67,27 +67,29 @@ const BannerPopup = () => {
   };
 
   const markAsShown = (banner) => {
-    const frequencia = banner.configPopup?.frequencia || 'uma-vez-por-sessao';
-    const storageKey = `popup-${banner._id}`;
+    const frequencia = banner.popupFrequency || 'once-per-session';
+    const storageKey = `popup-${banner.id}`;
 
-    if (frequencia === 'uma-vez-por-sessao') {
+    if (frequencia === 'once-per-session') {
       sessionStorage.setItem(storageKey, 'true');
-    } else if (frequencia === 'uma-vez-por-dia') {
+    } else if (frequencia === 'once-per-day') {
       localStorage.setItem(storageKey, Date.now().toString());
     }
   };
 
   const handleView = async (id) => {
+    if (!id) return;
     try {
-      await fetch(`/api/publicidades/${id}/view`, { method: 'POST' });
+      await fetch(`/api/ads/${id}/view`, { method: 'POST' });
     } catch (error) {
       console.error('Erro ao registrar visualização:', error);
     }
   };
 
   const handleClick = async (id) => {
+    if (!id) return;
     try {
-      await fetch(`/api/publicidades/${id}/click`, { method: 'POST' });
+      await fetch(`/api/ads/${id}/click`, { method: 'POST' });
       setShowModal(false);
     } catch (error) {
       console.error('Erro ao registrar clique:', error);

@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Advertisement from '@/models/Advertisement';
+import prisma from '@/lib/prisma';
 
 // GET - Get specific advertisement
 export async function GET(request, { params }) {
   try {
-    await dbConnect();
-
-    const advertisement = await Advertisement.findById(params.id).select('-__v');
+    const { id } = await params;
+    
+    const advertisement = await prisma.advertisement.findUnique({
+      where: { id },
+    });
 
     if (!advertisement) {
       return NextResponse.json(
@@ -32,8 +33,7 @@ export async function GET(request, { params }) {
 // PATCH - Update advertisement
 export async function PATCH(request, { params }) {
   try {
-    await dbConnect();
-
+    const { id } = await params;
     const body = await request.json();
     const { adminPassword, ...updateData } = body;
 
@@ -53,18 +53,10 @@ export async function PATCH(request, { params }) {
       }
     }
 
-    const advertisement = await Advertisement.findByIdAndUpdate(
-      params.id,
-      updateData,
-      { new: true, runValidators: true }
-    );
-
-    if (!advertisement) {
-      return NextResponse.json(
-        { success: false, error: 'Advertisement not found' },
-        { status: 404 }
-      );
-    }
+    const advertisement = await prisma.advertisement.update({
+      where: { id },
+      data: updateData,
+    });
 
     return NextResponse.json({
       success: true,
@@ -73,6 +65,14 @@ export async function PATCH(request, { params }) {
     });
   } catch (error) {
     console.error('Error updating advertisement:', error);
+    
+    if (error.code === 'P2025') {
+      return NextResponse.json(
+        { success: false, error: 'Advertisement not found' },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
       { success: false, error: 'Error updating advertisement' },
       { status: 500 }
@@ -83,8 +83,7 @@ export async function PATCH(request, { params }) {
 // DELETE - Remove advertisement
 export async function DELETE(request, { params }) {
   try {
-    await dbConnect();
-
+    const { id } = await params;
     const { searchParams } = new URL(request.url);
     const adminPassword = searchParams.get('adminPassword');
 
@@ -96,14 +95,9 @@ export async function DELETE(request, { params }) {
       );
     }
 
-    const advertisement = await Advertisement.findByIdAndDelete(params.id);
-
-    if (!advertisement) {
-      return NextResponse.json(
-        { success: false, error: 'Advertisement not found' },
-        { status: 404 }
-      );
-    }
+    await prisma.advertisement.delete({
+      where: { id },
+    });
 
     return NextResponse.json({
       success: true,
@@ -111,6 +105,14 @@ export async function DELETE(request, { params }) {
     });
   } catch (error) {
     console.error('Error deleting advertisement:', error);
+    
+    if (error.code === 'P2025') {
+      return NextResponse.json(
+        { success: false, error: 'Advertisement not found' },
+        { status: 404 }
+      );
+    }
+
     return NextResponse.json(
       { success: false, error: 'Error removing advertisement' },
       { status: 500 }

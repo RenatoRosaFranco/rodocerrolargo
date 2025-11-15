@@ -1,5 +1,6 @@
-import Header from '@/ui/shared/Header';
+import MapLocation from '@/ui/components/MapLocation';
 import TaxiDriverList from '@/ui/components/TaxiDriverList';
+import Header from '@/ui/shared/Header';
 
 export const metadata = {
   title: 'Taxi Drivers - Estação Rodoviária de Cerro Largo',
@@ -11,6 +12,7 @@ export default function TaxiDriversPage() {
     <>
       <Header />
       <TaxiDriverList />
+      <MapLocation />
     </>
   );
 }

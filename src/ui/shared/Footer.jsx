@@ -1,9 +1,8 @@
-import React from 'react';
-import { Container, Row, Col, Nav } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 
 const Footer = () => {
   return (
-    <footer>
+    <footer style={{ borderTop: '1px solid #eee', paddingTop: '24px' }}>
       <Container className='py-2'>
         <Row className='mb-4'>
           <Col className='col-md-4'>

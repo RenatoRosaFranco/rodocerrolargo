@@ -13,7 +13,7 @@ const BannerRodape = () => {
 
   const fetchBanner = async () => {
     try {
-      const response = await fetch('/api/publicidades?tipo=rodape&ativos=true');
+      const response = await fetch('/api/ads?type=footer&active=true');
       const data = await response.json();
 
       if (data.success && data.data.length > 0) {
@@ -26,16 +26,18 @@ const BannerRodape = () => {
   };
 
   const handleView = async (id) => {
+    if (!id) return;
     try {
-      await fetch(`/api/publicidades/${id}/view`, { method: 'POST' });
+      await fetch(`/api/ads/${id}/view`, { method: 'POST' });
     } catch (error) {
       console.error('Erro ao registrar visualização:', error);
     }
   };
 
   const handleClick = async (id) => {
+    if (!id) return;
     try {
-      await fetch(`/api/publicidades/${id}/click`, { method: 'POST' });
+      await fetch(`/api/ads/${id}/click`, { method: 'POST' });
     } catch (error) {
       console.error('Erro ao registrar clique:', error);
     }

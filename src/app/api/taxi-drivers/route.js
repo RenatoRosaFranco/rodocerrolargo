@@ -1,33 +1,46 @@
+import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import TaxiDriver from '@/models/TaxiDriver';
 
 // GET - List all taxi drivers (filter only approved if not admin)
 export async function GET(request) {
   try {
-    await dbConnect();
-
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
     const isAdmin = searchParams.get('admin') === 'true';
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '6', 10);
 
-    let query = {};
+    let where = {};
 
     if (status) {
-      query.status = status;
+      where.status = status;
     } else if (!isAdmin) {
       // If not admin, show only approved
-      query.status = 'approved';
+      where.status = 'approved';
     }
 
-    const taxiDrivers = await TaxiDriver.find(query)
-      .sort({ registrationDate: -1 })
-      .select('-__v');
+    // Calculate skip for pagination
+    const skip = (page - 1) * limit;
+
+    // Get total count
+    const total = await prisma.taxiDriver.count({ where });
+
+    const taxiDrivers = await prisma.taxiDriver.findMany({
+      where,
+      orderBy: {
+        registrationDate: 'desc',
+      },
+      skip,
+      take: limit,
+    });
 
     return NextResponse.json({
       success: true,
       data: taxiDrivers,
-      total: taxiDrivers.length,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
     });
   } catch (error) {
     console.error('Error fetching taxi drivers:', error);
@@ -41,20 +54,30 @@ export async function GET(request) {
 // POST - Create new taxi driver registration (pending status)
 export async function POST(request) {
   try {
-    await dbConnect();
-
     const body = await request.json();
 
-    // Remove fields that should not be sent by user
-    delete body.status;
-    delete body.approvalDate;
-    delete body.approvedBy;
-    delete body.rejectionReason;
+    // Validate required fields
+    const requiredFields = ['fullName', 'email', 'phone', 'whatsapp'];
+    for (const field of requiredFields) {
+      if (!body[field]) {
+        return NextResponse.json(
+          { success: false, error: `${field} is required` },
+          { status: 400 }
+        );
+      }
+    }
 
     // Create taxi driver with pending status
-    const taxiDriver = await TaxiDriver.create({
-      ...body,
-      status: 'pending',
+    const taxiDriver = await prisma.taxiDriver.create({
+      data: {
+        fullName: body.fullName,
+        email: body.email,
+        phone: body.phone,
+        whatsapp: body.whatsapp,
+        description: body.description || null,
+        photo: body.photo || null,
+        status: 'pending',
+      },
     });
 
     return NextResponse.json(
@@ -68,17 +91,8 @@ export async function POST(request) {
   } catch (error) {
     console.error('Error creating taxi driver:', error);
 
-    // Handle validation errors
-    if (error.name === 'ValidationError') {
-      const messages = Object.values(error.errors).map(err => err.message);
-      return NextResponse.json(
-        { success: false, error: messages.join(', ') },
-        { status: 400 }
-      );
-    }
-
-    // Handle duplicate errors
-    if (error.code === 11000) {
+    // Handle unique constraint errors
+    if (error.code === 'P2002') {
       return NextResponse.json(
         { success: false, error: 'Email already registered' },
         { status: 400 }

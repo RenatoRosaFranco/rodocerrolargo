@@ -5,7 +5,8 @@ import BannerBase from './BannerBase';
 
 const BannerLateral = ({ lado = 'esquerdo' }) => {
   const [banner, setBanner] = useState(null);
-  const tipoBanner = `lateral-${lado}`;
+  // Mapear lado para o tipo correto no banco
+  const tipoBanner = lado === 'esquerdo' ? 'left' : 'right';
 
   useEffect(() => {
     fetchBanner();
@@ -13,7 +14,7 @@ const BannerLateral = ({ lado = 'esquerdo' }) => {
 
   const fetchBanner = async () => {
     try {
-      const response = await fetch(`/api/publicidades?tipo=${tipoBanner}&ativos=true`);
+      const response = await fetch(`/api/ads?type=${tipoBanner}&active=true`);
       const data = await response.json();
 
       if (data.success && data.data.length > 0) {
@@ -26,16 +27,18 @@ const BannerLateral = ({ lado = 'esquerdo' }) => {
   };
 
   const handleView = async (id) => {
+    if (!id) return;
     try {
-      await fetch(`/api/publicidades/${id}/view`, { method: 'POST' });
+      await fetch(`/api/ads/${id}/view`, { method: 'POST' });
     } catch (error) {
       console.error('Erro ao registrar visualização:', error);
     }
   };
 
   const handleClick = async (id) => {
+    if (!id) return;
     try {
-      await fetch(`/api/publicidades/${id}/click`, { method: 'POST' });
+      await fetch(`/api/ads/${id}/click`, { method: 'POST' });
     } catch (error) {
       console.error('Erro ao registrar clique:', error);
     }
@@ -47,9 +50,7 @@ const BannerLateral = ({ lado = 'esquerdo' }) => {
     <div
       className={`banner-lateral banner-lateral-${lado}`}
       style={{
-        position: 'sticky',
-        top: '100px',
-        maxWidth: '300px',
+        width: '100%',
         marginBottom: '20px',
       }}
     >
@@ -62,6 +63,8 @@ const BannerLateral = ({ lado = 'esquerdo' }) => {
           overflow: 'hidden',
           borderRadius: '8px',
           boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          width: '100%',
+          height: 'auto',
         }}
       />
     </div>

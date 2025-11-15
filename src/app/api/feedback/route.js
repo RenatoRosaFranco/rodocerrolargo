@@ -1,28 +1,8 @@
 import { NextResponse } from 'next/server';
-import { writeFile, readFile, mkdir } from 'fs/promises';
-import { existsSync } from 'fs';
-import path from 'path';
-
-const FEEDBACK_DIR = path.join(process.cwd(), 'data');
-const FEEDBACK_FILE = path.join(FEEDBACK_DIR, 'feedbacks.json');
-
-async function ensureFeedbackFile() {
-  try {
-    if (!existsSync(FEEDBACK_DIR)) {
-      await mkdir(FEEDBACK_DIR, { recursive: true });
-    }
-    if (!existsSync(FEEDBACK_FILE)) {
-      await writeFile(FEEDBACK_FILE, JSON.stringify([], null, 2));
-    }
-  } catch (error) {
-    console.error('Error ensuring feedback file:', error);
-  }
-}
+import { prisma } from '@/lib/prisma';
 
 export async function POST(request) {
   try {
-    await ensureFeedbackFile();
-
     const body = await request.json();
     const { rating, message } = body;
 
@@ -47,23 +27,15 @@ export async function POST(request) {
                       'unknown';
     const userAgent = request.headers.get('user-agent') || 'unknown';
 
-    // Read existing feedbacks
-    const data = await readFile(FEEDBACK_FILE, 'utf8');
-    const feedbacks = JSON.parse(data);
-
-    // Create new feedback
-    const feedback = {
-      id: Date.now().toString(),
-      rating,
-      message: message.trim(),
-      ipAddress,
-      userAgent,
-      createdAt: new Date().toISOString(),
-    };
-
-    // Add to array and save
-    feedbacks.push(feedback);
-    await writeFile(FEEDBACK_FILE, JSON.stringify(feedbacks, null, 2));
+    // Create feedback in database
+    const feedback = await prisma.feedback.create({
+      data: {
+        rating,
+        message: message.trim(),
+        ipAddress,
+        userAgent,
+      },
+    });
 
     return NextResponse.json(
       { 
@@ -84,22 +56,23 @@ export async function POST(request) {
 
 export async function GET(request) {
   try {
-    await ensureFeedbackFile();
-
-    const data = await readFile(FEEDBACK_FILE, 'utf8');
-    const feedbacks = JSON.parse(data);
-
-    // Sort by date (newest first)
-    feedbacks.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    // Remove sensitive data
-    const sanitizedFeedbacks = feedbacks.map(({ ipAddress, userAgent, ...rest }) => rest);
+    const feedbacks = await prisma.feedback.findMany({
+      orderBy: {
+        createdAt: 'desc'
+      },
+      select: {
+        id: true,
+        rating: true,
+        message: true,
+        createdAt: true
+      }
+    });
 
     return NextResponse.json(
       { 
         success: true, 
-        feedbacks: sanitizedFeedbacks,
-        count: sanitizedFeedbacks.length 
+        feedbacks,
+        count: feedbacks.length 
       },
       { status: 200 }
     );

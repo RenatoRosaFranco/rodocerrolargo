@@ -1,10 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
-import { Card, Col, Container, Row, Button } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import { LuTicket } from "react-icons/lu";
-import { PiTaxiFill } from "react-icons/pi";
 import { MdLock, MdPhone } from "react-icons/md";
+import { PiTaxiFill } from "react-icons/pi";
 import UsefulPhonesModal from './UsefulPhonesModal';
 
 const Services = () => {
@@ -17,7 +18,8 @@ const Services = () => {
     },
     {
       icon: <PiTaxiFill />,
-      name: 'Ponto de Taxi'
+      name: 'Taxistas',
+      href: '/taxi-drivers'
     },
     {
       icon: <MdLock />,
@@ -26,18 +28,28 @@ const Services = () => {
   ];
 
   const ServiceCard = ({ service }) => {
-    const { icon, name } = service;
+    const { icon, name, href } = service;
+
+    const cardContent = (
+      <Card className="text-center h-100" style={{ cursor: href ? 'pointer' : 'default' }}>
+        <Card.Body>
+          <h2 className="fw-bold">{icon}</h2>
+          <h4 className="fw-bold">{name}</h4>
+        </Card.Body>
+      </Card>
+    );
 
     return (
       <Col md={3} className="mb-4">
-        <Card className="text-center h-100">
-          <Card.Body>
-            <h2 className="fw-bold">{icon}</h2>
-            <h4 className="fw-bold">{name}</h4>
-          </Card.Body>
-        </Card>
+        {href ? (
+          <Link href={href} className="text-decoration-none text-reset">
+            {cardContent}
+          </Link>
+        ) : (
+          cardContent
+        )}
       </Col>
-    )
+    );
   }
 
   return (

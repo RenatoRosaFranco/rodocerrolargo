@@ -1,129 +1,131 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Taxista from '@/models/Taxista';
+import prisma from '@/lib/prisma';
 
-// GET - Busca um taxista específico
+// GET - Get specific taxi driver
 export async function GET(request, { params }) {
   try {
-    await dbConnect();
+    const { id } = await params;
+    
+    const taxiDriver = await prisma.taxiDriver.findUnique({
+      where: { id },
+    });
 
-    const taxista = await Taxista.findById(params.id).select('-__v');
-
-    if (!taxista) {
+    if (!taxiDriver) {
       return NextResponse.json(
-        { success: false, error: 'Taxista não encontrado' },
+        { success: false, error: 'Taxi driver not found' },
         { status: 404 }
       );
     }
 
     return NextResponse.json({
       success: true,
-      data: taxista,
+      data: taxiDriver,
     });
   } catch (error) {
-    console.error('Erro ao buscar taxista:', error);
+    console.error('Error fetching taxi driver:', error);
     return NextResponse.json(
-      { success: false, error: 'Erro ao buscar taxista' },
+      { success: false, error: 'Error fetching taxi driver' },
       { status: 500 }
     );
   }
 }
 
-// PATCH - Atualiza o status de um taxista (aprovar/rejeitar)
+// PATCH - Update taxi driver status (approve/reject)
 export async function PATCH(request, { params }) {
   try {
-    await dbConnect();
-
+    const { id } = await params;
     const body = await request.json();
-    const { status, motivoRejeicao, adminPassword } = body;
+    const { status, rejectionReason, adminPassword } = body;
 
-    // Verifica senha do admin (autenticação simples)
+    // Verify admin password
     if (adminPassword !== process.env.ADMIN_PASSWORD) {
       return NextResponse.json(
-        { success: false, error: 'Senha de administrador inválida' },
+        { success: false, error: 'Invalid admin password' },
         { status: 401 }
       );
     }
 
-    // Valida status
-    if (!['aprovado', 'rejeitado', 'pendente'].includes(status)) {
+    // Validate status
+    if (!['approved', 'rejected', 'pending'].includes(status)) {
       return NextResponse.json(
-        { success: false, error: 'Status inválido' },
+        { success: false, error: 'Invalid status' },
         { status: 400 }
       );
     }
 
-    // Prepara dados de atualização
+    // Prepare update data
     const updateData = {
       status,
-      dataAprovacao: status === 'aprovado' ? new Date() : null,
-      aprovadoPor: 'Admin',
+      approvalDate: status === 'approved' ? new Date() : null,
+      approvedBy: 'Admin',
     };
 
-    if (status === 'rejeitado' && motivoRejeicao) {
-      updateData.motivoRejeicao = motivoRejeicao;
+    if (status === 'rejected' && rejectionReason) {
+      updateData.rejectionReason = rejectionReason;
     }
 
-    const taxista = await Taxista.findByIdAndUpdate(
-      params.id,
-      updateData,
-      { new: true, runValidators: true }
-    );
+    const taxiDriver = await prisma.taxiDriver.update({
+      where: { id },
+      data: updateData,
+    });
 
-    if (!taxista) {
+    return NextResponse.json({
+      success: true,
+      message: `Registration ${status === 'approved' ? 'approved' : 'rejected'} successfully!`,
+      data: taxiDriver,
+    });
+  } catch (error) {
+    console.error('Error updating taxi driver:', error);
+    
+    if (error.code === 'P2025') {
       return NextResponse.json(
-        { success: false, error: 'Taxista não encontrado' },
+        { success: false, error: 'Taxi driver not found' },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({
-      success: true,
-      message: `Cadastro ${status === 'aprovado' ? 'aprovado' : 'rejeitado'} com sucesso!`,
-      data: taxista,
-    });
-  } catch (error) {
-    console.error('Erro ao atualizar taxista:', error);
     return NextResponse.json(
-      { success: false, error: 'Erro ao atualizar cadastro' },
+      { success: false, error: 'Error updating registration' },
       { status: 500 }
     );
   }
 }
 
-// DELETE - Remove um taxista
+// DELETE - Remove taxi driver
 export async function DELETE(request, { params }) {
   try {
-    await dbConnect();
-
+    const { id } = await params;
     const { searchParams } = new URL(request.url);
     const adminPassword = searchParams.get('adminPassword');
 
-    // Verifica senha do admin
+    // Verify admin password
     if (adminPassword !== process.env.ADMIN_PASSWORD) {
       return NextResponse.json(
-        { success: false, error: 'Senha de administrador inválida' },
+        { success: false, error: 'Invalid admin password' },
         { status: 401 }
       );
     }
 
-    const taxista = await Taxista.findByIdAndDelete(params.id);
+    await prisma.taxiDriver.delete({
+      where: { id },
+    });
 
-    if (!taxista) {
+    return NextResponse.json({
+      success: true,
+      message: 'Registration removed successfully!',
+    });
+  } catch (error) {
+    console.error('Error deleting taxi driver:', error);
+    
+    if (error.code === 'P2025') {
       return NextResponse.json(
-        { success: false, error: 'Taxista não encontrado' },
+        { success: false, error: 'Taxi driver not found' },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({
-      success: true,
-      message: 'Cadastro removido com sucesso!',
-    });
-  } catch (error) {
-    console.error('Erro ao deletar taxista:', error);
     return NextResponse.json(
-      { success: false, error: 'Erro ao remover cadastro' },
+      { success: false, error: 'Error removing registration' },
       { status: 500 }
     );
   }

@@ -1,44 +1,45 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import Advertisement from '@/models/Advertisement';
+import prisma from '@/lib/prisma';
 
 // GET - List advertisements with filters
 export async function GET(request) {
   try {
-    await dbConnect();
-
     const { searchParams } = new URL(request.url);
     const bannerType = searchParams.get('type');
     const status = searchParams.get('status');
     const isAdmin = searchParams.get('admin') === 'true';
     const activeOnly = searchParams.get('active') === 'true';
 
-    let query = {};
+    let where = {};
 
     // Filter by banner type
     if (bannerType) {
-      query.bannerType = bannerType;
+      where.bannerType = bannerType;
     }
 
     // Filter by status
     if (status) {
-      query.status = status;
+      where.status = status;
     } else if (!isAdmin) {
       // If not admin, show only active
-      query.status = 'active';
+      where.status = 'active';
     }
 
     // Filter by active period
     if (activeOnly) {
       const now = new Date();
-      query.startDate = { $lte: now };
-      query.endDate = { $gte: now };
-      query.status = 'active';
+      where.startDate = { lte: now };
+      where.endDate = { gte: now };
+      where.status = 'active';
     }
 
-    const advertisements = await Advertisement.find(query)
-      .sort({ priority: -1, createdAt: -1 })
-      .select('-__v');
+    const advertisements = await prisma.advertisement.findMany({
+      where,
+      orderBy: [
+        { priority: 'desc' },
+        { createdAt: 'desc' },
+      ],
+    });
 
     return NextResponse.json({
       success: true,
@@ -57,16 +58,18 @@ export async function GET(request) {
 // POST - Create new advertisement
 export async function POST(request) {
   try {
-    await dbConnect();
-
     const body = await request.json();
 
-    // Remove fields that should not be sent by user
-    delete body.status;
-    delete body.views;
-    delete body.clicks;
-    delete body.approvedBy;
-    delete body.approvalDate;
+    // Validate required fields
+    const requiredFields = ['imageUrl', 'destinationLink', 'bannerType', 'startDate', 'endDate'];
+    for (const field of requiredFields) {
+      if (!body[field]) {
+        return NextResponse.json(
+          { success: false, error: `${field} is required` },
+          { status: 400 }
+        );
+      }
+    }
 
     // Validate dates
     const startDate = new Date(body.startDate);
@@ -80,9 +83,18 @@ export async function POST(request) {
     }
 
     // Create advertisement with pending status
-    const advertisement = await Advertisement.create({
-      ...body,
-      status: 'pending',
+    const advertisement = await prisma.advertisement.create({
+      data: {
+        imageUrl: body.imageUrl,
+        destinationLink: body.destinationLink,
+        bannerType: body.bannerType,
+        startDate,
+        endDate,
+        priority: body.priority || 0,
+        popupDisplayAfter: body.popupDisplayAfter || 5,
+        popupFrequency: body.popupFrequency || 'once-per-session',
+        status: 'pending',
+      },
     });
 
     return NextResponse.json(
@@ -95,15 +107,6 @@ export async function POST(request) {
     );
   } catch (error) {
     console.error('Error creating advertisement:', error);
-
-    // Handle validation errors
-    if (error.name === 'ValidationError') {
-      const messages = Object.values(error.errors).map(err => err.message);
-      return NextResponse.json(
-        { success: false, error: messages.join(', ') },
-        { status: 400 }
-      );
-    }
 
     return NextResponse.json(
       { success: false, error: 'Error creating request' },

@@ -1,7 +1,6 @@
 import { Col, Container, Row } from 'react-bootstrap';
 
-import { FaRegCheckCircle, FaMapMarkerAlt } from "react-icons/fa";
-import { FaPix } from "react-icons/fa6";
+import { FaMapMarkerAlt, FaRegCheckCircle } from "react-icons/fa";
 import { LuScanQrCode } from "react-icons/lu";
 import { TbDeviceMobileDollar } from "react-icons/tb";
 
@@ -30,14 +29,24 @@ const HowTo = () => {
   ]
 
   return (
-    <section id="how-to-section" className='py-4'>
+    <section id="how-to-section" className='py-4' style={{ borderTop: '1px solid #EEE', borderBottom: '1px solid #EEE' }}>
       <Container>
         <Row>
           {steps.map((step) => (
             <Col key={step.id} className="col-md-3 col-sm-12">
               <div className="d-flex align-items-center gap-3">
                 <div className="step-icon flex-shrink-0 fw-bold"
-                style={{ fontSize: '40px' }}>{step.icon}</div>
+                style={{
+                  fontSize: '32px',
+                  background: '#EEE',
+                  borderRadius: '50%',
+                  width: '60px',
+                  height: '60px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#666'
+                }}>{step.icon}</div>
                 <div className="step-name">{step.name}</div>
               </div>
             </Col>
