@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "BlaBlaCar",
+    "description": "Compartilhamento de viagens",
+    "logo": "https://cdn.worldvectorlogo.com/logos/blablacar-1.svg",
+    "link": "https://www.blablacar.com.br/",
+    "color": "#00AFF5"
+  },
+  {
+    "id": 2,
+    "name": "Garupa",
+    "description": "Caronas solidárias",
+    "logo": "https://play-lh.googleusercontent.com/xL6fL8H_qJZ0Q5kZ3X0rZ1qZ0Q5kZ3X0rZ1qZ0Q5kZ3X0rZ1qZ0Q5kZ3X0rZ1qZ0Q5k=w240-h480-rw",
+    "link": "https://garupa.app/",
+    "color": "#FF6B35"
+  },
+  {
+    "id": 3,
+    "name": "Tchê Levo",
+    "description": "Transporte regional RS",
+    "logo": "/images/apps/tche-levo.png",
+    "link": "https://www.instagram.com/tchelevoapp/",
+    "color": "#28A745"
+  },
+  {
+    "id": 4,
+    "name": "99",
+    "description": "Viagens de carro",
+    "logo": "https://cdn.worldvectorlogo.com/logos/99.svg",
+    "link": "https://99app.com/",
+    "color": "#FFD500"
+  },
+  {
+    "id": 5,
+    "name": "Uber",
+    "description": "Mobilidade urbana",
+    "logo": "https://cdn.worldvectorlogo.com/logos/uber-1.svg",
+    "link": "https://www.uber.com/br/pt-br/",
+    "color": "#000000"
+  }
+]

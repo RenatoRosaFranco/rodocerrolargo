@@ -1,6 +1,6 @@
 import { Col, Container, Row } from 'react-bootstrap';
 
-import { FaRegCheckCircle } from "react-icons/fa";
+import { FaRegCheckCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { FaPix } from "react-icons/fa6";
 import { LuScanQrCode } from "react-icons/lu";
 import { TbDeviceMobileDollar } from "react-icons/tb";
@@ -9,8 +9,8 @@ const HowTo = () => {
   const steps = [
     {
       id: 1,
-      icon: <FaPix />,
-      name: 'Pague com Pix'
+      icon: <FaMapMarkerAlt />,
+      name: 'Selecione seu destino'
     },
     {
       id: 2,

@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Hotel Missões",
+    "address": "R. Dr. João Sebastiany, 401 - Centro",
+    "phone": "(55) 3359-1283",
+    "coordinates": {
+      "lat": -28.145972372779944,
+      "lng": -54.738918806701655
+    }
+  },
+  {
+    "id": 2,
+    "name": "Hotel Brasil",
+    "address": "R. Dr. João Sebastiany, 314 - Centro",
+    "phone": "(55) 3359-1102",
+    "coordinates": {
+      "lat": -28.146547957662584,
+      "lng": -54.739097144431994
+    }
+  }
+]

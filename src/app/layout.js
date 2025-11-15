@@ -15,6 +15,9 @@ import Footer from '@/ui/shared/Footer';
 import GoogleAnalytics from '@/ui/components/GoogleAnalytics';
 
 import WhatsappButton from '@/ui/components/WhatsappButton';
+import FeedbackWidget from '@/ui/components/FeedbackWidget';
+
+import QueryProvider from '@/providers/QueryProvider';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,12 +40,15 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <GoogleAnalytics />
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ToastContainer />
-        <SpeedInsights />
-        <Analytics />
-        {children}
-        <Footer />
-        <WhatsappButton />
+        <QueryProvider>
+          <ToastContainer />
+          <SpeedInsights />
+          <Analytics />
+          {children}
+          <Footer />
+          <WhatsappButton />
+          <FeedbackWidget />
+        </QueryProvider>
       </body>
     </html>
   );

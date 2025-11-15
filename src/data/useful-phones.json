@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "name": "SAMU",
+    "location": "Atendimento móvel",
+    "phone": "192",
+    "category": "emergencia"
+  },
+  {
+    "id": 2,
+    "name": "Corpo de Bombeiros",
+    "location": "Rua Independência, 1234",
+    "phone": "(55) 3314-0765",
+    "category": "emergencia"
+  },
+  {
+    "id": 3,
+    "name": "Brigada Militar",
+    "location": "Av. 20 de Setembro, 625 - Bairro Floresta",
+    "phone": "(55) 3359-1433",
+    "category": "emergencia"
+  },
+  {
+    "id": 4,
+    "name": "Polícia Civil",
+    "location": "R. Dr. João Sebastiany, 240 - Centro",
+    "phone": "(55) 3359-1818",
+    "category": "emergencia"
+  },
+  {
+    "id": 5,
+    "name": "Prefeitura de Cerro Largo",
+    "location": "Av. Cel. Jorge Frantz, 675 - Centro",
+    "phone": "(55) 3359-4900",
+    "category": "publico"
+  },
+  {
+    "id": 6,
+    "name": "Paróquia Sagrada Família de Nazareth",
+    "location": " R. Padre Maximiliano - Centro",
+    "phone": "(55) 3359-1838",
+    "category": "religioso"
+  },
+  {
+    "id": 7,
+    "name": "ACI Cerro Largo",
+    "location": "R. Dr. Otto Flach, 894",
+    "phone": "(55) 3359-1402",
+    "category": "comercial"
+  },
+  {
+    "id": 8,
+    "name": "Hospital de Caridade Serro Azul",
+    "location": "R. Sete de Setembro, 743 - Centro",
+    "phone": "(55) 3359-1255",
+    "category": "saude"
+  },
+  {
+    "id": 9,
+    "name": "Rodoviária de Cerro Largo",
+    "location": "R. Helmuth Schmidt, 700",
+    "phone": "(55) 3359-1191",
+    "category": "transporte"
+  }
+]
