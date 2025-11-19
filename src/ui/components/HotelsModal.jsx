@@ -28,7 +28,7 @@ const HotelsModal = ({ show, onHide }) => {
       <Modal.Header closeButton>
         <Modal.Title>
           <FaBed className="me-2" />
-          Hostéis
+          Hotéis
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ maxHeight: '70vh', overflowY: 'auto' }}>

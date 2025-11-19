@@ -1,14 +1,31 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Col, Container, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap';
-import { FaFacebookF, FaInstagram, FaMapMarkerAlt, FaPhone, FaRegClock, FaRegEnvelope, FaWhatsapp } from 'react-icons/fa';
+import { useEffect, useState, useRef } from 'react';
+import { Col, Container, Nav, Navbar, NavDropdown, Row, Form } from 'react-bootstrap';
+import { FaFacebookF, FaInstagram, FaMapMarkerAlt, FaPhone, FaRegClock, FaRegEnvelope, FaWhatsapp, FaSearch, FaMicrophone } from 'react-icons/fa';
+import { useAnimatedPlaceholder } from '@/hooks/useAnimatedPlaceholder';
 import ContactModal from '../components/ContactModal';
+import SearchResultsModal from '../components/SearchResultsModal';
 import WeatherWidget from '../components/WeatherWidget';
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [submittedQuery, setSubmittedQuery] = useState('');
   const [currentTime, setCurrentTime] = useState('');
+  const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef(null);
+
+  const placeholders = [
+    'Próximo ônibus Santa Rosa?',
+    'Horários para Ijuí?',
+    'Passagem Porto Alegre?',
+    'Enviar encomendas?',
+    'Horários disponíveis?',
+  ];
+
+  const currentPlaceholder = useAnimatedPlaceholder(placeholders, 3000);
 
   useEffect(() => {
     // Atualiza o horário a cada segundo
@@ -28,6 +45,82 @@ const Header = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      setSubmittedQuery(searchQuery);
+      setShowSearchModal(true);
+    }
+  };
+
+  // Inicializa o reconhecimento de voz
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+      if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'pt-BR';
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 1;
+
+        let finalTranscript = '';
+
+        recognition.onresult = (event) => {
+          let interimTranscript = '';
+
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+              finalTranscript += transcript + ' ';
+            } else {
+              interimTranscript += transcript;
+            }
+          }
+
+          // Atualiza o campo com o transcript (final ou interim)
+          setSearchQuery((finalTranscript + interimTranscript).trim());
+        };
+
+        recognition.onerror = (event) => {
+          console.error('Erro no reconhecimento de voz:', event.error);
+          if (event.error !== 'no-speech' && event.error !== 'aborted') {
+            setIsListening(false);
+          }
+        };
+
+        recognition.onend = () => {
+          setIsListening(false);
+          finalTranscript = '';
+        };
+
+        recognitionRef.current = recognition;
+      }
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.abort();
+      }
+    };
+  }, []);
+
+  const toggleVoiceRecognition = () => {
+    if (!recognitionRef.current) {
+      alert('Seu navegador não suporta reconhecimento de voz. Tente usar o Google Chrome.');
+      return;
+    }
+
+    if (isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    } else {
+      recognitionRef.current.start();
+      setIsListening(true);
+    }
+  };
+
   return (
     <>
       <style dangerouslySetInnerHTML={{
@@ -37,6 +130,16 @@ const Header = () => {
           }
           .dropdown-toggle::after {
             display: none !important;
+          }
+          @keyframes pulse {
+            0%, 100% {
+              opacity: 1;
+              transform: scale(1);
+            }
+            50% {
+              opacity: 0.6;
+              transform: scale(1.1);
+            }
           }
         `
       }} />
@@ -125,7 +228,7 @@ const Header = () => {
         {/* Main Navbar */}
         <Navbar bg="light" expand="lg" className="shadow-sm mb-0" style={{ borderBottom: '1px solid #EEE' }}>
           <Container>
-            <Navbar.Brand href="/" className="fw-bold d-flex align-items-center gap-2">
+            <Navbar.Brand href="/" className="d-flex align-items-center gap-2">
               <div style={{
                 width: '40px',
                 height: '40px',
@@ -143,8 +246,80 @@ const Header = () => {
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
-              <span>Rodoviária Cerro Largo</span>
+              <div style={{ lineHeight: '1.2' }}>
+                <div style={{ fontWeight: 'normal' }}>Rodoviária de</div>
+                <div style={{ fontWeight: 'bold' }}>Cerro Largo</div>
+              </div>
             </Navbar.Brand>
+
+            {/* Search Form - Desktop */}
+            <Form onSubmit={handleSearchSubmit} className="d-none d-lg-flex mx-2" style={{ maxWidth: '280px', width: 'auto' }}>
+              <div style={{
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: '#f8f9fa',
+                border: '1px solid #dee2e6',
+                borderRadius: '20px',
+                padding: '5px 12px',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'white';
+                e.currentTarget.style.borderColor = '#adb5bd';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#f8f9fa';
+                e.currentTarget.style.borderColor = '#dee2e6';
+              }}>
+                <FaSearch style={{ color: '#ccc', fontSize: '0.75rem', marginRight: '6px', flexShrink: 0 }} />
+                <Form.Control
+                  type="text"
+                  placeholder={currentPlaceholder}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{
+                    border: 'none',
+                    outline: 'none',
+                    boxShadow: 'none',
+                    padding: '2px 4px',
+                    fontSize: '0.8rem',
+                    backgroundColor: 'transparent',
+                    width: '180px'
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={toggleVoiceRecognition}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    padding: '4px 6px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginLeft: '4px',
+                    transition: 'all 0.2s ease'
+                  }}
+                  title={isListening ? 'Parar gravação' : 'Buscar por voz'}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                >
+                  <FaMicrophone
+                    style={{
+                      color: isListening ? '#dc3545' : '#6c757d',
+                      fontSize: '0.9rem',
+                      animation: isListening ? 'pulse 1.5s infinite' : 'none'
+                    }}
+                  />
+                </button>
+              </div>
+            </Form>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto d-flex align-items-center">
@@ -251,6 +426,11 @@ const Header = () => {
       <div style={{ height: '115px' }}></div>
 
       <ContactModal show={showModal} onHide={() => setShowModal(false)} />
+      <SearchResultsModal
+        show={showSearchModal}
+        onHide={() => setShowSearchModal(false)}
+        query={submittedQuery}
+      />
     </>
   );
 };

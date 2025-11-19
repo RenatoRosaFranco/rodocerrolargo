@@ -47,7 +47,7 @@ const HostelsCard = () => {
                 </small>
               </div>
               <h5 className="fw-bold mb-1" style={{ fontSize: '1.1rem', color: '#1f2937' }}>
-                Hostéis em Cerro Largo
+                Hotéis em Cerro Largo
               </h5>
               <p className="mb-2" style={{ fontSize: '0.8rem', color: '#6b7280' }}>
                 Acomodações confortáveis no município.

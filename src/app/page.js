@@ -5,6 +5,7 @@ import BannerRodape from '@/ui/components/banners/BannerRodape';
 import BannerTopo from '@/ui/components/banners/BannerTopo';
 import BannerLateral from '@/ui/components/banners/BannerLateral';
 import Faq from '@/ui/components/Faq';
+import FutsalTeam from '@/ui/components/FutsalTeam';
 import Hero from '@/ui/components/Hero';
 import HowTo from '@/ui/components/HowTo';
 import MapLocation from '@/ui/components/MapLocation';
@@ -45,6 +46,7 @@ export default function Home() {
           <OktoberfestCard />
           <Schedule />
           <MobilityApps />
+          <FutsalTeam />
           <Orders />
           <Services />
           <Faq />
