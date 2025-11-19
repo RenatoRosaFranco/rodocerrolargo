@@ -1,8 +1,7 @@
 {
   "buildCommand": "npm run build",
   "env": {
-    "DATABASE_URL": "@database_url",
-    "PROVIDER": "@provider"
+    "DATABASE_URL": "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RfaWQiOjEsInNlY3VyZV9rZXkiOiJza18wV0NlZU0wY3pmNkhEdjZXaENPckYiLCJhcGlfa2V5IjoiMDFLQUU4MEVWV1BKSlk3WUtONjMwQ1NaUlYiLCJ0ZW5hbnRfaWQiOiIzOTgyYWQ5MWNmMTRlYzljNDdiNDQ1YjM1ZTUzYjM0Mjc2OGZkYWMyZTY5N2FmNGZlNWVkNDU2MWFmMWIwYjQ4IiwiaW50ZXJuYWxfc2VjcmV0IjoiMWY2ZjBhNDQtZTk0Ni00MjE3LTlmMmItZmQ2ZTMwZTYyOGJhIn0.CohQt2yvY3ig--hDNq-AdUOYQ7RzcnltaURIdx04C18"
   },
   "installCommand": "npm install"
 }
