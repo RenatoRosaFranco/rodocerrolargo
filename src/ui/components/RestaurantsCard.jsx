@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { Button, Card, Col, Row } from 'react-bootstrap';
-import { FaBed } from 'react-icons/fa';
-import HotelsModal from './HotelsModal';
+import { FaUtensils } from 'react-icons/fa';
+import RestaurantsModal from './RestaurantsModal';
 
-const HostelsCard = () => {
+const RestaurantsCard = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -21,7 +21,7 @@ const HostelsCard = () => {
         <Card.Body className="p-3">
           <Row className="align-items-center">
             <Col xs={3} className="text-center">
-              <FaBed
+              <FaUtensils
                 size={50}
                 style={{
                   color: '#1f2937',
@@ -43,14 +43,14 @@ const HostelsCard = () => {
                     letterSpacing: '0.5px'
                   }}
                 >
-                  HOSPEDAGEM
+                  ALIMENTAÇÃO
                 </small>
               </div>
               <h5 className="fw-bold mb-1" style={{ fontSize: '1.1rem', color: '#1f2937' }}>
-                Hotéis em Cerro Largo
+                Restaurantes
               </h5>
               <p className="mb-2" style={{ fontSize: '0.8rem', color: '#6b7280' }}>
-                Acomodações confortáveis no município.
+                Opções gastronômicas em Cerro Largo.
               </p>
 
               <Button
@@ -70,16 +70,16 @@ const HostelsCard = () => {
                 onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
                 onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
               >
-                VER HOTÉIS
+                VER RESTAURANTES
               </Button>
             </Col>
           </Row>
         </Card.Body>
       </Card>
 
-      <HotelsModal show={showModal} onHide={() => setShowModal(false)} />
+      <RestaurantsModal show={showModal} onHide={() => setShowModal(false)} />
     </>
   );
 };
 
-export default HostelsCard;
+export default RestaurantsCard;

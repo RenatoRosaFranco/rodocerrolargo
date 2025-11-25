@@ -331,8 +331,6 @@ const Header = () => {
                 <span className="text-muted mx-2">|</span>
                 <Nav.Link href="/taxi-drivers">Taxistas</Nav.Link>
                 <span className="text-muted mx-2">|</span>
-                <Nav.Link href="/advertising">Anuncie</Nav.Link>
-                <span className="text-muted mx-2">|</span>
                 <Nav.Link href="#" onClick={(e) => { e.preventDefault(); setShowModal(true); }}>
                   Contato
                 </Nav.Link>

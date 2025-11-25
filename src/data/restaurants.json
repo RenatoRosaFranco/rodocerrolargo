@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Restaurante Sabor Gaúcho",
+    "address": "R. Mal. Floriano Peixoto, 523 - Centro",
+    "phone": "(55) 3359-1234",
+    "coordinates": {
+      "lat": -28.146123,
+      "lng": -54.738456
+    }
+  },
+  {
+    "id": 2,
+    "name": "Churrascaria Galpão Crioulo",
+    "address": "R. Dr. João Sebastiany, 789 - Centro",
+    "phone": "(55) 3359-2345",
+    "coordinates": {
+      "lat": -28.145678,
+      "lng": -54.739123
+    }
+  },
+  {
+    "id": 3,
+    "name": "Pizzaria Bella Napoli",
+    "address": "Av. Independência, 456 - Centro",
+    "phone": "(55) 3359-3456",
+    "coordinates": {
+      "lat": -28.147234,
+      "lng": -54.738901
+    }
+  },
+  {
+    "id": 4,
+    "name": "Restaurante e Lancheria Central",
+    "address": "R. Helmuth Schmidt, 234 - Centro",
+    "phone": "(55) 3359-4567",
+    "coordinates": {
+      "lat": -28.146789,
+      "lng": -54.739567
+    }
+  }
+]

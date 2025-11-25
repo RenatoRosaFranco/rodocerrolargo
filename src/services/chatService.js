@@ -1,5 +1,6 @@
 import scheduleData from '@/data/schedule.json';
 import hotelsData from '@/data/hotels.json';
+import restaurantsData from '@/data/restaurants.json';
 
 /**
  * Busca horários de ônibus no schedule.json
@@ -63,6 +64,13 @@ const getSystemContext = () => {
     coordinates: hotel.coordinates
   }));
 
+  const restaurantsList = restaurantsData.map(restaurant => ({
+    name: restaurant.name,
+    address: restaurant.address,
+    phone: restaurant.phone,
+    coordinates: restaurant.coordinates
+  }));
+
   return `Você é um assistente virtual da Rodoviária de Cerro Largo.
 
 INFORMAÇÕES IMPORTANTES:
@@ -79,6 +87,9 @@ SERVIÇOS:
 HOTÉIS EM CERRO LARGO:
 ${JSON.stringify(hotelsList, null, 2)}
 
+RESTAURANTES EM CERRO LARGO:
+${JSON.stringify(restaurantsList, null, 2)}
+
 HORÁRIOS DISPONÍVEIS:
 ${JSON.stringify(allSchedules, null, 2)}
 
@@ -86,9 +97,10 @@ INSTRUÇÕES:
 1. Seja sempre cordial e prestativo
 2. Forneça informações precisas baseadas nos dados acima
 3. Quando perguntarem sobre hotéis ou hospedagem, liste os hotéis disponíveis com seus telefones e endereços
-4. Se não souber algo, seja honesto e sugira contato direto
-5. Use formatação markdown para destacar informações importantes
-6. Sempre termine perguntando se pode ajudar com mais alguma coisa`;
+4. Quando perguntarem sobre restaurantes ou onde comer, liste os restaurantes disponíveis com seus telefones e endereços
+5. Se não souber algo, seja honesto e sugira contato direto
+6. Use formatação markdown para destacar informações importantes
+7. Sempre termine perguntando se pode ajudar com mais alguma coisa`;
 };
 
 /**
@@ -214,5 +226,17 @@ export const localSearch = (query) => {
     return response;
   }
 
-  return `Olá! Sou o assistente virtual da Rodoviária de Cerro Largo.\n\nPosso te ajudar com:\n• Horários de ônibus\n• Valores de passagens\n• Hotéis e hospedagem\n• Serviço de encomendas\n• Localização da rodoviária\n\nO que você gostaria de saber?`;
+  if (lowerQuery.includes('restaurante') || lowerQuery.includes('comer') || lowerQuery.includes('comida') || lowerQuery.includes('almoço') || lowerQuery.includes('janta') || lowerQuery.includes('jantar')) {
+    let response = '**Restaurantes em Cerro Largo:**\n\n';
+    restaurantsData.forEach((restaurant, index) => {
+      if (index > 0) response += '\n';
+      response += `**${restaurant.name}**\n`;
+      response += `📍 ${restaurant.address}\n`;
+      response += `📞 ${restaurant.phone}\n`;
+    });
+    response += '\n\nPosso ajudar com mais alguma informação?';
+    return response;
+  }
+
+  return `Olá! Sou o assistente virtual da Rodoviária de Cerro Largo.\n\nPosso te ajudar com:\n• Horários de ônibus\n• Valores de passagens\n• Hotéis e hospedagem\n• Restaurantes\n• Serviço de encomendas\n• Localização da rodoviária\n\nO que você gostaria de saber?`;
 };
